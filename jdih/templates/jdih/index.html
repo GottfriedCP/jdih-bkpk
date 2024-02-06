@@ -1,0 +1,93 @@
+{% extends 'jdih/BASE.html' %}
+{% load static %}
+
+{% block title_bl %}JDIH Kemkes{% endblock %}
+
+{% block head_bl %}
+<style>
+    section#pencarian {
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: darken;
+        background-image: url({% static 'jdih/img/kemkes-office.jpg' %});
+    }
+</style>
+{% endblock %}
+
+{% block body_bl %}
+<section id="pencarian">
+    <div class="container pb-5" style="padding-top: 150px;">
+        <h1 class="mb-3" style="font-size: 2rem; color: white;">
+            <span style="background-color: black;">Peraturan apa yang ingin Anda cari?</span>
+        </h1>
+        <form method="post" action="{% url 'jdih:cari' %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Ketik kata kunci pencarian"
+                        aria-label="Kata kunci" name="keyword">
+                </div>
+                <div class="col">
+                    <button style="width: 100px;" class="btn btn-kemkes btn-dark" type="submit">Cari</button>
+                </div>
+            </div>
+            <p class="ms-1">
+                <a style="color: white;" data-bs-toggle="collapse" href="#collapseCariLanjut">
+                    &plus; Pencarian lanjutan
+                </a>
+            </p>
+            <div class="collapse" id="collapseCariLanjut">
+                <div class="card card-body">
+                    <div class="row">
+                        <div class="col">
+                            <input name="nomor" type="number" min="1" class="form-control" placeholder="Nomor" aria-label="Nomor">
+                        </div>
+                        <div class="col">
+                            <input name="tahun" type="number" min="1900" max="2077" class="form-control" placeholder="Tahun" aria-label="Tahun">
+                        </div>
+                        <div class="col">
+                            <select class="form-select" name="bentuk">
+                                <option selected value="">-Bentuk peraturan-</option>
+                                {% for bentuk in bentuks %}
+                                <option value="{{ bentuk.id }}">{{ bentuk.nama_lengkap_bentuk }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<section id="peraturan-terbaru" class="mt-5">
+    <div class="container">
+        <h2 class="color-kemkes" style="font-size: 1.5rem;">Peraturan Terbaru</h2>
+        {% if peraturans %}
+        <div class="d-flex justify-content-start">
+            {% for peraturan in peraturans %}
+            <a style="color: black; text-decoration: none;" href="{% url 'jdih:detail' peraturan.id %}" class="m-3">
+                <div class="card" style="width: 18rem; min-height: 192px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ peraturan.kode }}</h5>
+                        <p class="card-text">{{ peraturan.judul }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <div>
+                            <i class="bi bi-calendar-event"></i>&nbsp;{{ peraturan.created_at|date:"d F Y" }}
+                        </div>
+                        <div>
+                            <i class="bi bi-eye"></i>&nbsp;{{ peraturan.jumlah_lihat }}
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <p class="text-center mt-3"><a href="{% url 'jdih:daftar_peraturan' %}" role="button" class="btn btn-dark btn-kemkes rounded-pill">Selengkapnya</a></p>
+        {% else %}
+        Tidak ada data peraturan di dalam sistem...
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

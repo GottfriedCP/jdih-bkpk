@@ -1,0 +1,104 @@
+{% extends 'jdih/BASE.html' %}
+
+{% block title_bl %}Daftar Peraturan{% endblock %}
+
+{% block head_bl %}
+<style>
+    .form-cari {
+        border: 1px solid black;
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">
+                    <span class="color-kemkes"><i class="bi bi-house-fill"></i></span>
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Peraturan</li>
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block body_bl %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <h2 class="color-kemkes" style="font-size: 1.5rem;">Pencarian</h2>
+            <form class="form-cari px-4 py-3 me-5" method="post" action="{% url 'jdih:cari' %}">
+                {% csrf_token %}
+                <label class="form-label" for="keyword">Kata kunci</label>
+                <input type="text" class="form-control" id="keyword" name="keyword" autofocus value="{{ keyword }}">
+
+                <label class="form-label mt-3" for="nomor">Nomor</label>
+                <input name="nomor" type="number" min="1" class="form-control" value="{{ nomor }}">
+
+                <label class="form-label mt-3" for="tahun">Tahun</label>
+                <input name="tahun" type="number" min="1900" max="2077" class="form-control" value="{{ tahun }}">
+
+                <label class="form-label mt-3" for="bentuk">Bentuk</label>
+                <select class="form-select" id="bentuk" name="bentuk">
+                    <option selected value=""></option>
+                    {% for bentuk in bentuks %}
+                    <option value="{{ bentuk.id }}">{{ bentuk.nama_lengkap_bentuk }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="form-label mt-3" for="subyek">Subyek</label>
+                <select class="form-select" id="subyek" name="subyek">
+                    <option selected value="0"></option>
+                    {% for subyek in subyeks %}
+                    <option value="{{ subyek.id }}">{{ subyek.judul }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="form-label mt-3" for="kategori">Kategori</label>
+                <select class="form-select" id="kategori" name="kategori">
+                    <option selected value="0"></option>
+                    {% for kategori in kategoris %}
+                    <option value="{{ kategori.id }}">{{ kategori.judul }}</option>
+                    {% endfor %}
+                </select>
+                <div class="d-grid gap-2 mt-5">
+                    <button class="btn btn-dark btn-kemkes" type="submit">Cari</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <h1 class="color-kemkes" style="font-size: 1.5rem;">Daftar Peraturan</h1>
+            {% if not peraturans %}
+            Tidak ada peraturan ditemukan.
+            {% endif %}
+            {% for peraturan in peraturans %}
+            <a style="color: black; text-decoration: none;" href="{% url 'jdih:detail' peraturan.id %}" class="m-3">
+                <div class="card" style="min-height: 192px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ peraturan.kode }} {% if peraturan.status != status_berlaku %}<span class="badge text-bg-secondary">{{ peraturan.get_status_display }}</span>{% endif %}</h5>
+                        <p class="card-text">
+                            {{ peraturan.judul }}<br>
+                            {% if peraturan.headline %}
+                            ... {{ peraturan.headline|safe }} ... 
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <div>
+                            <i class="bi bi-calendar-event"></i>&nbsp;{{ peraturan.created_at|date:"d F Y" }}
+                        </div>
+                        <div>
+                            <i class="bi bi-eye"></i>&nbsp;{{ peraturan.jumlah_lihat }}
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

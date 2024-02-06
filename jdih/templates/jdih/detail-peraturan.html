@@ -1,0 +1,148 @@
+{% extends 'jdih/BASE.html' %}
+
+{% block head_bl %}
+
+{% endblock %}
+
+{% block title_bl %}{{ peraturan.bentuk.nama_lengkap_bentuk }} {{ peraturan.kode }}{% endblock %}
+
+{% block breadcrumb %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">
+                    <span class="color-kemkes"><i class="bi bi-house-fill"></i></span>
+                </a>
+            </li>
+            <li class="breadcrumb-item"><a href="{% url 'jdih:daftar_peraturan' %}">
+                    <span class="color-kemkes">Peraturan</span>
+                </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detail Peraturan</li>
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block body_bl %}
+<div class="container mt-5">
+    <h1 class="color-kemkes">
+        <span style="font-size: 1.5rem;">Detail Peraturan </span>
+    </h1>
+    {% if dokumen_tersedia %}
+    <a class="btn btn-dark btn-kemkes btn-sm rounded-pill mb-3" href="{% url 'jdih:unduh' peraturan.id %}">
+        <span class="px-3"><i class="bi bi-cloud-download"></i>&ThickSpace; Fulltext</span>
+    </a>
+    {% endif %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Meta</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kode</td>
+                        <td>{{ peraturan.kode }}</td>
+                    </tr>
+                    <tr>
+                        <td>Judul</td>
+                        <td>{{ peraturan.judul }}</td>
+                    </tr>
+                    <tr>
+                        <td>Bentuk</td>
+                        <td>{{ peraturan.bentuk }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nomor</td>
+                        <td>{{ peraturan.nomor }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tahun</td>
+                        <td>{{ peraturan.tahun }}</td>
+                    </tr>
+                    <tr>
+                        <td>Subyek</td>
+                        <td>
+                            {% for s in peraturan.subyek.all %}
+                            <span class="badge text-bg-light">{{ s }}</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kategori</td>
+                        <td>
+                            {% for k in peraturan.kategori.all %}
+                            <span class="badge text-bg-light">{{ k }}</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Unit Eselon I Pemrakarsa</td>
+                        <td>{{ peraturan.unit_eselon_1_pemrakarsa|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tempat Penetapan</td>
+                        <td>{{ peraturan.tempat_penetapan|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Penetapan</td>
+                        <td>{{ peraturan.tanggal_penetapan|date:'d F Y'|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Pengundangan</td>
+                        <td>{{ peraturan.tanggal_pengundangan|date:'d F Y'|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Berlaku Efektif</td>
+                        <td>{{ peraturan.tanggal_berlaku_efektif|date:'d F Y'|default:'-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>{{ peraturan.get_status_display }}</td>
+                    </tr>
+                    <tr>
+                        <td>Riwayat</td>
+                        <td>
+                            <ul>
+                            <!-- UNTUK P AKTIF -->
+                            {% if peraturan_is_berlaku %}
+                            {% for p in peraturan.mencabuts.all %}
+                                <li>Mencabut <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            {% for p in peraturan.mencabut_sebagians.all %}
+                                <li>Mencabut sebagian <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            {% for p in peraturan.mengubahs.all %}
+                                <li>Mengubah <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            {% for p in peraturan.melengkapis.all %}
+                                <li>Melengkapi <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            <!-- UNTUK P AKTIF -->
+                            {% else %}
+                            {% for p in peraturan.pencabuts.all %}
+                                <li>Dicabut oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            {% for p in peraturan.pencabut_sebagians.all %}
+                                <li>Dicabut sebagian oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            {% for p in peraturan.pengubahs.all %}
+                                <li>Diubah oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            {% for p in peraturan.pelengkaps.all %}
+                                <li>Dilengkapi oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                            {% endfor %}
+                            {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

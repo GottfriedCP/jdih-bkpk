@@ -1,0 +1,10 @@
+black==23.12.1
+Django==4.2.9
+django-q==1.3.9
+mysqlclient==2.2.1
+nltk==3.8.1
+PyMuPDF==1.23.18
+PyMuPDFb==1.23.9
+python-decouple==3.8
+Sastrawi==1.0.1
+psycopg2==2.9.9
