@@ -18,6 +18,15 @@ admin.site.index_title = "Beranda"
 @admin.register(models.Peraturan)
 class PeraturanAdmin(admin.ModelAdmin):
     list_display = ["kode", "judul", "tahun", "bentuk", "status"]
+    filter_horizontal = [
+        "subyek",
+        "kategori",
+        "tema",
+        "mencabuts",
+        "mencabut_sebagians",
+        "mengubahs",
+        "melengkapis",
+    ]
     # formfield_overrides = {
     #     django_model.ManyToManyField: {"widget": CheckboxSelectMultiple},
     # }
