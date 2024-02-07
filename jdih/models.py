@@ -135,10 +135,11 @@ class Peraturan(TimeStampedModel):
             super().save(*args, **kwargs)
 
     def __str__(self):
-        if len(self.judul) > 20:
-            return f"{self.kode} {str(self.judul)[:20]}"
-        else:
-            return f"{self.kode} {self.judul}"
+        # if len(self.judul) > 20:
+        #     return f"{self.kode} {str(self.judul)[:20]}"
+        # else:
+        #     return f"{self.kode} {self.judul}"
+        return f"{self.kode} {self.judul}"
 
 
 # class Cabut(TimeStampedModel):
