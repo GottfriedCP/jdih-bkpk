@@ -21,7 +21,9 @@ from .models import BentukPeraturan, Peraturan, Subyek, Kategori, Tema
 
 
 def index(request):
-    peraturans = Peraturan.objects.filter(status=Peraturan.BERLAKU)[:10]
+    peraturans = Peraturan.objects.filter(status=Peraturan.BERLAKU).order_by(
+        "-tanggal_penetapan"
+    )[:10]
     bentuk_peraturans = BentukPeraturan.objects.all()
     return render(
         request,
@@ -40,14 +42,18 @@ def daftar_peraturan(request):
     bentuk_peraturans = BentukPeraturan.objects.all()
     subyeks = Subyek.objects.all()
     kategoris = Kategori.objects.all()
-    
+
     paginator = Paginator(peraturans, 7, orphans=5, allow_empty_first_page=True)
-    page_number = request.GET.get('laman', 1)
+    page_number = request.GET.get("laman", 1)
     peraturans_p = paginator.get_page(page_number)
 
     context = {
         "peraturans": peraturans_p,
-        "paginator_range": paginator.get_elided_page_range(page_number) if paginator.num_pages > 1 else [],
+        "paginator_range": (
+            paginator.get_elided_page_range(page_number)
+            if paginator.num_pages > 1
+            else []
+        ),
         "bentuks": bentuk_peraturans,
         "dokumen_hukum": True,
         "subyeks": subyeks,
