@@ -81,7 +81,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ peraturan.kode }} {% if peraturan.status != status_berlaku %}<span class="badge text-bg-secondary">{{ peraturan.get_status_display }}</span>{% endif %}</h5>
                         <p class="card-text">
-                            {{ peraturan.judul }}<br>
+                            {{ peraturan.judul|title }}<br>
                             {% if peraturan.headline %}
                             ... {{ peraturan.headline|safe }} ... 
                             {% endif %}
@@ -89,7 +89,7 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <div>
-                            <i class="bi bi-calendar-event"></i>&nbsp;{{ peraturan.created_at|date:"d F Y" }}
+                            <i class="bi bi-calendar-event"></i>&nbsp;{{ peraturan.tanggal_penetapan|default:peraturan.created_at|date:"d F Y" }}
                         </div>
                         <div>
                             <i class="bi bi-eye"></i>&nbsp;{{ peraturan.jumlah_lihat }}
@@ -98,6 +98,19 @@
                 </div>
             </a>
             {% endfor %}
+            <nav aria-label="pagination">
+                <ul class="pagination">
+                    {% for p in paginator_range %}
+                    <li class="page-item">
+                        {% if p == peraturans.number %}
+                        <span class="page-link" style="color: black;">{{ p }}</span>
+                        {% else %}
+                        <a class="page-link color-kemkes" href="{% if p == peraturans.number or p == '…' %}#{% else %}?laman={{ p }}{% endif %}">{{ p }}</a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

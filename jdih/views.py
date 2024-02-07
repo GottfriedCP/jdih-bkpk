@@ -9,6 +9,7 @@ import nltk
 from django.db.models import F
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchVector
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.http.response import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -39,8 +40,14 @@ def daftar_peraturan(request):
     bentuk_peraturans = BentukPeraturan.objects.all()
     subyeks = Subyek.objects.all()
     kategoris = Kategori.objects.all()
+    
+    paginator = Paginator(peraturans, 7, orphans=5, allow_empty_first_page=True)
+    page_number = request.GET.get('laman')
+    peraturans_p = paginator.get_page(page_number)
+
     context = {
-        "peraturans": peraturans,
+        "peraturans": peraturans_p,
+        "paginator_range": paginator.get_elided_page_range(page_number) if paginator.num_pages > 1 else [],
         "bentuks": bentuk_peraturans,
         "dokumen_hukum": True,
         "subyeks": subyeks,

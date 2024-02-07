@@ -70,7 +70,7 @@
                     <a style="color: black; text-decoration: none;" href="{% url 'jdih:detail' peraturan.id %}">
                         <div class="card-body" style="width: 18rem; min-height: 192px;">
                             <h5 class="card-title">{{ peraturan.kode }}</h5>
-                            <p class="card-text">{{ peraturan.judul }}</p>
+                            <p class="card-text">{{ peraturan.judul|title }}</p>
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <div>
