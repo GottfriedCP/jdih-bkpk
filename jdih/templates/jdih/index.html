@@ -64,24 +64,24 @@
     <div class="container">
         <h2 class="color-kemkes" style="font-size: 1.5rem;">Peraturan Terbaru</h2>
         {% if peraturans %}
-        <div class="d-flex justify-content-start">
+        <div class="d-flex flex-wrap justify-content-start">
             {% for peraturan in peraturans %}
-            <a style="color: black; text-decoration: none;" href="{% url 'jdih:detail' peraturan.id %}" class="m-3">
-                <div class="card" style="width: 18rem; min-height: 192px;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ peraturan.kode }}</h5>
-                        <p class="card-text">{{ peraturan.judul }}</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <div>
-                            <i class="bi bi-calendar-event"></i>&nbsp;{{ peraturan.created_at|date:"d F Y" }}
+                <div class="card m-3">
+                    <a style="color: black; text-decoration: none;" href="{% url 'jdih:detail' peraturan.id %}">
+                        <div class="card-body" style="width: 18rem; min-height: 192px;">
+                            <h5 class="card-title">{{ peraturan.kode }}</h5>
+                            <p class="card-text">{{ peraturan.judul }}</p>
                         </div>
-                        <div>
-                            <i class="bi bi-eye"></i>&nbsp;{{ peraturan.jumlah_lihat }}
+                        <div class="card-footer d-flex justify-content-between">
+                            <div>
+                                <i class="bi bi-calendar-event"></i>&nbsp;{{ peraturan.tanggal_penetapan|default:peraturan.created_at|date:"d F Y" }}
+                            </div>
+                            <div>
+                                <i class="bi bi-eye"></i>&nbsp;{{ peraturan.jumlah_lihat }}
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-            </a>
             {% endfor %}
         </div>
         <p class="text-center mt-3"><a href="{% url 'jdih:daftar_peraturan' %}" role="button" class="btn btn-dark btn-kemkes rounded-pill">Selengkapnya</a></p>
