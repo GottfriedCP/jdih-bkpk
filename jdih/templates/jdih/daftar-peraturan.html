@@ -4,6 +4,11 @@
 
 {% block head_bl %}
 <style>
+    @media (min-width:  480px) {
+        .col-cari {
+            position: sticky;
+        }
+    }
     .form-cari {
         border: 1px solid black;
         padding: 10px;
@@ -29,7 +34,7 @@
 {% block body_bl %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 col-cari">
             <h2 class="color-kemkes" style="font-size: 1.5rem;">Pencarian</h2>
             <form class="form-cari px-4 py-3 me-5" method="post" action="{% url 'jdih:cari' %}">
                 {% csrf_token %}
