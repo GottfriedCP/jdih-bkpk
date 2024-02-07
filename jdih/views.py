@@ -42,7 +42,7 @@ def daftar_peraturan(request):
     kategoris = Kategori.objects.all()
     
     paginator = Paginator(peraturans, 7, orphans=5, allow_empty_first_page=True)
-    page_number = request.GET.get('laman')
+    page_number = request.GET.get('laman', 1)
     peraturans_p = paginator.get_page(page_number)
 
     context = {
