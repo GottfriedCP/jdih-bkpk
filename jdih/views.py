@@ -37,17 +37,46 @@ def index(request):
 
 
 def daftar_peraturan(request):
-    peraturans = Peraturan.objects.all()
     # untuk populate kotak pencarian
     bentuk_peraturans = BentukPeraturan.objects.all()
     subyeks = Subyek.objects.all()
     kategoris = Kategori.objects.all()
 
-    paginator = Paginator(peraturans, 7, orphans=5, allow_empty_first_page=True)
+    keyword = ""
+    nomor = ""
+    tahun = ""
+    ps = Peraturan.objects
+    # BY KEYWORD
+    if request.GET.get("keyword"):
+        keyword = request.GET.get("keyword")
+        # ps = ps.filter(judul__search=keyword)
+        ps = ps.annotate(
+            headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
+        )
+        ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
+        ps = ps.filter(search=keyword)
+    # BY NOMOR
+    if request.GET.get("nomor"):
+        nomor = request.GET.get("nomor")
+        ps = ps.filter(nomor=int(nomor))
+    # BY TAHUN
+    if request.GET.get("tahun"):
+        tahun = request.GET.get("tahun")
+        ps = ps.filter(tahun=int(tahun))
+    # BY BENTUK PERATURAN
+    if request.GET.get("bentuk"):
+        bentuk = request.GET.get("bentuk")
+        ps = ps.filter(bentuk__id__in=(int(bentuk),))
+    ps = ps.all()
+
+    paginator = Paginator(ps, 7, orphans=5, allow_empty_first_page=True)
     page_number = request.GET.get("laman", 1)
     peraturans_p = paginator.get_page(page_number)
 
     context = {
+        "keyword": keyword,
+        "nomor": nomor,
+        "tahun": tahun,
         "peraturans": peraturans_p,
         "paginator_range": (
             paginator.get_elided_page_range(page_number)
@@ -104,45 +133,44 @@ def unduh(request, peraturan_id):
 
 
 def cari(request):
-    if request.method == "POST":
-        keyword = ""
-        nomor = ""
-        tahun = ""
-        ps = Peraturan.objects
-        # BY KEYWORD
-        if request.POST.get("keyword"):
-            keyword = request.POST.get("keyword")
-            # ps = ps.filter(judul__search=keyword)
-            ps = ps.annotate(
-                headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
-            )
-            ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
-            ps = ps.filter(search=keyword)
-        # BY NOMOR
-        if request.POST.get("nomor"):
-            nomor = request.POST.get("nomor")
-            ps = ps.filter(nomor=int(nomor))
-        # BY TAHUN
-        if request.POST.get("tahun"):
-            tahun = request.POST.get("tahun")
-            ps = ps.filter(tahun=int(tahun))
-        # BY BENTUK PERATURAN
-        if request.POST.get("bentuk"):
-            bentuk = request.POST.get("bentuk")
-            ps = ps.filter(bentuk__id__in=(int(bentuk),))
-        ps = ps.all()
-        context = {
-            "dokumen_hukum": True,
-            "keyword": keyword,
-            "nomor": nomor,
-            "tahun": tahun,
-            "peraturans": ps,
-            "bentuks": BentukPeraturan.objects.all(),
-            "subyeks": Subyek.objects.all(),
-            "kategoris": Kategori.objects.all(),
-            "status_berlaku": Peraturan.BERLAKU,
-        }
-        return render(request, "jdih/daftar-peraturan.html", context=context)
+    keyword = ""
+    nomor = ""
+    tahun = ""
+    ps = Peraturan.objects
+    # BY KEYWORD
+    if request.GET.get("keyword"):
+        keyword = request.GET.get("keyword")
+        # ps = ps.filter(judul__search=keyword)
+        ps = ps.annotate(
+            headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
+        )
+        ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
+        ps = ps.filter(search=keyword)
+    # BY NOMOR
+    if request.GET.get("nomor"):
+        nomor = request.GET.get("nomor")
+        ps = ps.filter(nomor=int(nomor))
+    # BY TAHUN
+    if request.GET.get("tahun"):
+        tahun = request.GET.get("tahun")
+        ps = ps.filter(tahun=int(tahun))
+    # BY BENTUK PERATURAN
+    if request.GET.get("bentuk"):
+        bentuk = request.GET.get("bentuk")
+        ps = ps.filter(bentuk__id__in=(int(bentuk),))
+    ps = ps.all()
+    context = {
+        "dokumen_hukum": True,
+        "keyword": keyword,
+        "nomor": nomor,
+        "tahun": tahun,
+        "peraturans": ps,
+        "bentuks": BentukPeraturan.objects.all(),
+        "subyeks": Subyek.objects.all(),
+        "kategoris": Kategori.objects.all(),
+        "status_berlaku": Peraturan.BERLAKU,
+    }
+    return render(request, "jdih/daftar-peraturan.html", context=context)
 
 
 def extract_text(request):

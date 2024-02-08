@@ -21,8 +21,7 @@
         <h1 class="mb-3" style="font-size: 2rem; color: white;">
             <span style="background-color: black;">Peraturan apa yang ingin Anda cari?</span>
         </h1>
-        <form method="post" action="{% url 'jdih:cari' %}">
-            {% csrf_token %}
+        <form method="get" action="{% url 'jdih:daftar_peraturan' %}">
             <div class="row">
                 <div class="col">
                     <input type="text" class="form-control" placeholder="Ketik kata kunci pencarian"

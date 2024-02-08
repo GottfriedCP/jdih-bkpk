@@ -1,4 +1,5 @@
 {% extends 'jdih/BASE.html' %}
+{% load query_transform %}
 
 {% block title_bl %}Daftar Peraturan{% endblock %}
 
@@ -36,8 +37,7 @@
     <div class="row">
         <div class="col-md-4 col-cari">
             <h2 class="color-kemkes" style="font-size: 1.5rem;">Pencarian</h2>
-            <form class="form-cari px-4 py-3 me-5" method="post" action="{% url 'jdih:cari' %}">
-                {% csrf_token %}
+            <form class="form-cari px-4 py-3 me-5" method="get" action="{% url 'jdih:daftar_peraturan' %}">
                 <label class="form-label" for="keyword">Kata kunci</label>
                 <input type="text" class="form-control" id="keyword" name="keyword" autofocus value="{{ keyword }}">
 
@@ -110,7 +110,7 @@
                         {% if p == peraturans.number %}
                         <span class="page-link" style="color: black;">{{ p }}</span>
                         {% else %}
-                        <a class="page-link color-kemkes" href="{% if p == peraturans.number or p == '…' %}#{% else %}?laman={{ p }}{% endif %}">{{ p }}</a>
+                        <a class="page-link color-kemkes" href="{% if p == peraturans.number or p == '…' %}#{% else %}?{% query_transform laman=p %}{% endif %}">{{ p }}</a>
                         {% endif %}
                     </li>
                     {% endfor %}
