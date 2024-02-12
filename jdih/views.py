@@ -7,6 +7,7 @@ import fitz
 import nltk
 
 from django.db.models import F
+from django.contrib import messages
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchVector
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
@@ -49,6 +50,7 @@ def daftar_peraturan(request):
     # BY KEYWORD
     if request.GET.get("keyword"):
         keyword = request.GET.get("keyword")
+        messages.info(request, keyword)
         # ps = ps.filter(judul__search=keyword)
         ps = ps.annotate(
             headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)

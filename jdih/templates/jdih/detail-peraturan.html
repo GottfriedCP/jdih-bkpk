@@ -29,10 +29,10 @@
     <h1 class="color-kemkes">
         <span style="font-size: 1.5rem;">Detail Peraturan </span>
     </h1>
-    {% if dokumen_tersedia %}
-    <a class="btn btn-dark btn-kemkes btn-sm rounded-pill mb-3" href="{% url 'jdih:unduh' peraturan.id %}">
-        <span class="px-3"><i class="bi bi-cloud-download"></i>&ThickSpace; Fulltext</span>
-    </a>
+    {% if messages %}
+    <div class="p-3 my-3" style="background-color: #60C0D0;">
+        Anda tadi mencari kata kunci: <b>{% for m in messages %}{{ m }} {% endfor %}</b>
+    </div>
     {% endif %}
     <div class="card">
         <div class="card-body">
@@ -64,6 +64,7 @@
                         <td>Tahun</td>
                         <td>{{ peraturan.tahun }}</td>
                     </tr>
+                    {% comment %}
                     <tr>
                         <td>Subyek</td>
                         <td>
@@ -80,6 +81,7 @@
                             {% endfor %}
                         </td>
                     </tr>
+                    {% endcomment %}
                     <tr>
                         <td>Unit Eselon I Pemrakarsa</td>
                         <td>{{ peraturan.unit_eselon_1_pemrakarsa|default:'-' }}</td>
@@ -108,6 +110,7 @@
                         <td>Riwayat</td>
                         <td>
                             <ul>
+                                <li>Ditambahkan ke basis data JDIH pada {{ peraturan.created_at|date:'d F Y' }}</li>
                             <!-- UNTUK P AKTIF -->
                             {% if peraturan_is_berlaku %}
                             {% for p in peraturan.mencabuts.all %}
@@ -144,5 +147,17 @@
             </table>
         </div>
     </div>
+    {% if dokumen_tersedia %}
+    <div class="mt-5 px-auto">
+        <div>
+            <a class="btn btn-dark btn-kemkes btn-sm rounded-pill mb-3" href="{% url 'jdih:unduh' peraturan.id %}">
+                <span class="px-3"><i class="bi bi-cloud-download"></i>&ThickSpace; Unduh dokumen</span>
+            </a>
+        </div>
+        <object data="{% url 'jdih:unduh' peraturan.id %}" type="application/pdf" width="100%" height="1000">
+            <a href="{% url 'jdih:unduh' peraturan.id %}">Unduh Dokumen</a>
+        </object>
+    </div>    
+    {% endif %}
 </div>
 {% endblock %}

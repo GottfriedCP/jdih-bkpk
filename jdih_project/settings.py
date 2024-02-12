@@ -142,6 +142,7 @@ MEDIA_ROOT = BASE_DIR / "mediaroot"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 Q_CLUSTER_TIMEOUT = 120
 Q_CLUSTER = {

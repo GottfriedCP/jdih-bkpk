@@ -55,7 +55,7 @@
                     <option value="{{ bentuk.id }}">{{ bentuk.nama_lengkap_bentuk }}</option>
                     {% endfor %}
                 </select>
-
+                {% comment %}
                 <label class="form-label mt-3" for="subyek">Subyek</label>
                 <select class="form-select" id="subyek" name="subyek">
                     <option selected value="0"></option>
@@ -71,6 +71,8 @@
                     <option value="{{ kategori.id }}">{{ kategori.judul }}</option>
                     {% endfor %}
                 </select>
+                {% endcomment %}
+
                 <div class="d-grid gap-2 mt-5">
                     <button class="btn btn-dark btn-kemkes" type="submit">Cari</button>
                 </div>
@@ -97,7 +99,7 @@
                         <div>
                             <i class="bi bi-calendar-event"></i>&nbsp;{{ peraturan.tanggal_penetapan|default:peraturan.created_at|date:"d F Y" }}
                         </div>
-                        <div>
+                        <div title="Dilihat sebanyak">
                             <i class="bi bi-eye"></i>&nbsp;{{ peraturan.jumlah_lihat }}
                         </div>
                     </div>

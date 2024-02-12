@@ -32,6 +32,17 @@
             /* margin-bottom: 50px; */
         }
 
+        .navbar-kemkes-light {
+            background-color: #f5f5f5;
+            border-bottom: .3rem solid #047d78;
+            /* margin-bottom: 50px; */
+        }
+
+        .nav-link.active {
+            color: black;
+            text-decoration: underline;
+        }
+
         .breadcrumb span {
             text-decoration: none;
         }
@@ -59,8 +70,9 @@
         }
 
         .footer {
-            background-color: #047d78;
-            color: white;
+            /* background-color: #047d78;
+            color: white; */
+            border-top: .3rem solid #047d78;
             min-height: 128px;
         }
     </style>
@@ -68,10 +80,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-kemkes px-5">
+    <nav class="navbar navbar-expand-lg navbar-kemkes-light px-5">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="{% static 'jdih/img/logo.png' %}" alt="logo" height="auto">
+                <img src="{% static 'jdih/img/logo.png' %}" alt="logo" height="50">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,8 +92,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link {% if beranda %}active{% endif %}" href="/">Beranda</a>
+                        <a class="color-kemkes nav-link {% if beranda %}active{% endif %}" href="/">Beranda</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="color-kemkes nav-link {% if dokumen_hukum %}active{% endif %}" href="{% url 'jdih:daftar_peraturan' %}">Daftar Peraturan</a>
+                    </li>
+                    {% comment %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {% if dokumen_hukum %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -89,18 +105,18 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'jdih:daftar_peraturan' %}">Peraturan</a></li>
-                            {% comment %}
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            {% endcomment %}
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#">Profil</a>
                     </li>
+                    {% endcomment %}
                 </ul>
+                <span style="font-weight: bold; font-size: 110%;">Jaringan dan Informasi Hukum</span>
                 {% comment %}
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -114,9 +130,16 @@
     {% block body_bl %}{% endblock %}
     <div class="container-fluid footer mt-5 py-3 px-5">
         <div class="text-center">
-            &copy; Kementerian Kesehatan Republik Indonesia Tahun {% now 'Y' %}
+            <img src="{% static 'jdih/img/logo_p.png' %}" height="64"><br>
+            <div class="my-3" style="font-weight: bolder; font-size: 110%;">
+                Jaringan dan Informasi Hukum<br>
+                Kementerian Kesehatan Republik Indonesia
+            </div>
+            Jl. H.R. Rasuna Said Blok X5 Kav. 4-9 Jakarta Selatan, DKI Jakarta<br>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
