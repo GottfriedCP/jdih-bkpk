@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
 ADMINS = [("GP", "gottfriedcpn@gmail.com")]
-ERRORS_EMAIL_SUBJECT_PREFIX = "[JDIH]"
+EMAIL_SUBJECT_PREFIX = "[JDIH]"
 # Email backend setup
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
