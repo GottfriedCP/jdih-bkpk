@@ -144,6 +144,18 @@ MEDIA_ROOT = BASE_DIR / "mediaroot"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
+ADMINS = [("GP", "gottfriedcpn@gmail.com")]
+ERRORS_EMAIL_SUBJECT_PREFIX = "[JDIH]"
+# Email backend setup
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+# SMTP settings
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
 Q_CLUSTER_TIMEOUT = 120
 Q_CLUSTER = {
     "retry": Q_CLUSTER_TIMEOUT + 60,
