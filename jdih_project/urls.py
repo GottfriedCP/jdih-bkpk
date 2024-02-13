@@ -27,7 +27,7 @@ def errtest(request):
 
 urlpatterns = [
     path("admin-jdih/", admin.site.urls),
-    path("errtest/", errtest, name="errtest"),
+    # path("errtest/", errtest, name="errtest"),
     path("", include("jdih.urls")),
 ]
 
