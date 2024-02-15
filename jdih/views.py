@@ -54,10 +54,11 @@ def daftar_peraturan(request):
             keyword = str(request.GET.get("keyword"))[:30]
             messages.info(request, keyword)
             # ps = ps.filter(judul__search=keyword)
-            ps = ps.annotate(
-                headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
-            )
-            ps = ps.annotate(search=SearchVector("headline", "judul", "kode"))
+            # ps = ps.annotate(
+            #     headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
+            # )
+            # ps = ps.annotate(search=SearchVector("headline", "judul", "kode"))
+            ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
             ps = ps.filter(search=keyword)
         # BY NOMOR
         if request.GET.get("nomor"):
