@@ -3,6 +3,7 @@ import os
 import uuid
 
 import fitz
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -116,6 +117,12 @@ class Peraturan(TimeStampedModel):
     class Meta:
         ordering = ("-created_at",)
         verbose_name_plural = "peraturan"
+        # indexes = [
+        #     GinIndex(
+        #         name="peraturan_gin_idx",
+        #         fields=["teks", "judul", "kode"],
+        #     )
+        # ]
 
     def save(self, *args, **kwargs):
         update_jumlah_lihat = kwargs.pop("update_jumlah_lihat", False)
