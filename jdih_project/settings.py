@@ -29,9 +29,7 @@ DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+INTERNAL_IPS = config("INTERNAL_IPS", cast=Csv())
 
 
 # Application definition
