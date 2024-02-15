@@ -29,6 +29,8 @@ urlpatterns = [
     path("admin-jdih/", admin.site.urls),
     # path("errtest/", errtest, name="errtest"),
     path("", include("jdih.urls")),
+    # debug toolbar
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
