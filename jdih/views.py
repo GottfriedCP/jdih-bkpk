@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchVector
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http.response import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from nltk.corpus import stopwords
@@ -47,44 +47,48 @@ def daftar_peraturan(request):
     nomor = ""
     tahun = ""
     ps = Peraturan.objects
-    # BY KEYWORD
-    if request.GET.get("keyword"):
-        keyword = request.GET.get("keyword")
-        messages.info(request, keyword)
-        # ps = ps.filter(judul__search=keyword)
-        ps = ps.annotate(
-            headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
-        )
-        ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
-        ps = ps.filter(search=keyword)
-    # BY NOMOR
-    if request.GET.get("nomor"):
-        nomor = request.GET.get("nomor")
-        ps = ps.filter(nomor=int(nomor))
-    # BY TAHUN
-    if request.GET.get("tahun"):
-        tahun = request.GET.get("tahun")
-        ps = ps.filter(tahun=int(tahun))
-    # BY BENTUK PERATURAN
-    if request.GET.get("bentuk"):
-        bentuk = request.GET.get("bentuk")
-        ps = ps.filter(bentuk__id__in=(int(bentuk),))
-    ps = ps.all()
+    try:
+        # BY KEYWORD
+        if request.GET.get("keyword"):
+            keyword = request.GET.get("keyword")
+            messages.info(request, keyword)
+            # ps = ps.filter(judul__search=keyword)
+            ps = ps.annotate(
+                headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
+            )
+            ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
+            ps = ps.filter(search=keyword)
+        # BY NOMOR
+        if request.GET.get("nomor"):
+            nomor = request.GET.get("nomor")
+            ps = ps.filter(nomor=int(nomor))
+        # BY TAHUN
+        if request.GET.get("tahun"):
+            tahun = request.GET.get("tahun")
+            ps = ps.filter(tahun=int(tahun))
+        # BY BENTUK PERATURAN
+        if request.GET.get("bentuk"):
+            bentuk = request.GET.get("bentuk")
+            ps = ps.filter(bentuk__id__in=(int(bentuk),))
+        ps = ps.all()
 
-    paginator = Paginator(ps, 7, orphans=5, allow_empty_first_page=True)
-    page_number = request.GET.get("laman", 1)
-    peraturans_p = paginator.get_page(page_number)
+        paginator = Paginator(ps, 7, orphans=5, allow_empty_first_page=True)
+        page_number = int(request.GET.get("laman", 1))
+        peraturans_p = paginator.get_page(page_number)
+        paginator_range = (
+            paginator.get_elided_page_range(page_number)
+            if paginator.num_pages > 1
+            else []
+        )
+    except:
+        return redirect("jdih:daftar_peraturan")
 
     context = {
         "keyword": keyword,
         "nomor": nomor,
         "tahun": tahun,
         "peraturans": peraturans_p,
-        "paginator_range": (
-            paginator.get_elided_page_range(page_number)
-            if paginator.num_pages > 1
-            else []
-        ),
+        "paginator_range": paginator_range,
         "bentuks": bentuk_peraturans,
         "dokumen_hukum": True,
         "subyeks": subyeks,
