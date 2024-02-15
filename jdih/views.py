@@ -61,6 +61,9 @@ def daftar_peraturan(request):
             # ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
             # ps = ps.filter(search=keyword)
             ps = ps.filter(Q(teks_vektor=keyword) | Q(judul=keyword) | Q(kode=keyword))
+            ps = ps.annotate(
+                headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
+            )
         # BY NOMOR
         if request.GET.get("nomor"):
             nomor = request.GET.get("nomor")
