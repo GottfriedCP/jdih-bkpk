@@ -89,7 +89,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ peraturan.kode }} {% if peraturan.status != status_berlaku %}<span class="badge text-bg-secondary">{{ peraturan.get_status_display }}</span>{% endif %}</h5>
                         <p class="card-text">
-                            {{ peraturan.judul|title }}<br>
+                            <h6 style="text-decoration: underline;">{{ peraturan.judul|title }}</h6>
                             {% if peraturan.headline %}
                             ... {{ peraturan.headline|safe }} ... 
                             {% endif %}
