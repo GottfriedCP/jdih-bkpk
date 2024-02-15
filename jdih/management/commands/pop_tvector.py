@@ -28,9 +28,11 @@ class Command(BaseCommand):
             .exclude(teks__exact="")
             .exclude(teks__isnull=True)
         )
-
+        n = ps.count()
+        i = 0
         for p in ps:
             print(f"Processing {p}...")
             p.teks_vektor = SearchVector(F("teks"))
             p.save()
-            print("done")
+            i += 1
+            print(f"done {i}/{n}")

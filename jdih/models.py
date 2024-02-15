@@ -137,7 +137,7 @@ class Peraturan(TimeStampedModel):
                         for page in doc:
                             body_text += page.get_text()
                     self.teks = body_text
-                    self.teks_vektor = None
+                    self.teks_vektor = SearchVector(models.F("teks"))
                     self.last_teks_ingestion = timezone.now()
                 except:
                     pass
