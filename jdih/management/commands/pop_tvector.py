@@ -2,6 +2,7 @@ import datetime
 import os
 
 from decouple import config
+from django.contrib.postgres.search import SearchVector
 from django.core.management.base import BaseCommand
 from django.db.models import F, Q
 from django.utils import timezone
@@ -22,14 +23,14 @@ class Command(BaseCommand):
         #     Q(last_teks_ingestion__isnull=True)
         #     | Q(last_teks_ingestion__lt=F("updated_at"))
         # )
-        ps = Peraturan.objects.filter(last_teks_ingestion__isnull=True).exclude(file_dokumen__exact="")
+        ps = (
+            Peraturan.objects.filter(teks_vektor__isnull=True)
+            .exclude(teks__exact="")
+            .exclude(teks__isnull=True)
+        )
 
         for p in ps:
-            if p.file_dokumen is not None and os.path.isfile(p.file_dokumen.path):
-                with fitz.open(p.file_dokumen.path) as doc:
-                    body_text = ""
-                    for page in doc:
-                        body_text += page.get_text()
-                p.teks = body_text
-                p.last_teks_ingestion = timezone.now()
-                p.save()
+            print(f"Processing {p}...")
+            p.teks_vektor = SearchVector(F("teks"))
+            p.save()
+            print("done")

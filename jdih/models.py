@@ -3,7 +3,7 @@ import os
 import uuid
 
 import fitz
-from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVector, SearchVectorField
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -103,6 +103,7 @@ class Peraturan(TimeStampedModel):
 
     # Teks hasil ektraksi PDF peraturan
     teks = models.TextField(blank=True, null=True, editable=False)
+    teks_vektor = SearchVectorField(blank=True, null=True, editable=False)
     last_teks_ingestion = models.DateTimeField(blank=True, null=True, editable=False)
     file_dokumen = ContentTypeRestrictedFileField(
         upload_to="dokumen_hukum/",
@@ -136,6 +137,7 @@ class Peraturan(TimeStampedModel):
                         for page in doc:
                             body_text += page.get_text()
                     self.teks = body_text
+                    self.teks_vektor = None
                     self.last_teks_ingestion = timezone.now()
                 except:
                     pass

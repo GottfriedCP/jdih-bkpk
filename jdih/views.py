@@ -6,7 +6,7 @@ from collections import Counter
 import fitz
 import nltk
 
-from django.db.models import F
+from django.db.models import F, Q
 from django.contrib import messages
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchVector
 from django.core.files.storage import FileSystemStorage
@@ -58,8 +58,9 @@ def daftar_peraturan(request):
             #     headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
             # )
             # ps = ps.annotate(search=SearchVector("headline", "judul", "kode"))
-            ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
-            ps = ps.filter(search=keyword)
+            # ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
+            # ps = ps.filter(search=keyword)
+            ps = ps.filter(Q(teks_vektor=keyword) | Q(judul=keyword) | Q(kode=keyword))
         # BY NOMOR
         if request.GET.get("nomor"):
             nomor = request.GET.get("nomor")
