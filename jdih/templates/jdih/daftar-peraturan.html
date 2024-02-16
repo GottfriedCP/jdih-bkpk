@@ -40,10 +40,10 @@
             <form class="form-cari px-4 py-3 me-5" method="get" action="{% url 'jdih:daftar_peraturan' %}">
                 <h2 class="color-kemkes" style="font-size: 1.5rem;">Pencarian</h2>
                 <label class="form-label" for="keyword">Kata kunci</label>
-                <input type="text" class="form-control" id="keyword" name="keyword" autofocus value="{{ keyword }}">
+                <input type="text" class="form-control" id="keyword" name="keyword" autofocus value="{{ keyword }}" maxlength="30">
 
                 <label class="form-label mt-3" for="nomor">Nomor</label>
-                <input name="nomor" type="number" min="1" class="form-control" value="{{ nomor }}">
+                <input name="nomor" type="number" min="1" max="9999" class="form-control" value="{{ nomor }}">
 
                 <label class="form-label mt-3" for="tahun">Tahun</label>
                 <input name="tahun" type="number" min="1900" max="2077" class="form-control" value="{{ tahun }}">
