@@ -60,7 +60,11 @@ def daftar_peraturan(request):
             # ps = ps.annotate(search=SearchVector("headline", "judul", "kode"))
             # ps = ps.annotate(search=SearchVector("teks", "judul", "kode"))
             # ps = ps.filter(search=keyword)
-            ps = ps.filter(Q(teks_vektor=keyword) | Q(judul=keyword) | Q(kode=keyword))
+            ps = ps.filter(
+                Q(teks_vektor=keyword)
+                | Q(judul__icontains=keyword)
+                | Q(kode__icontains=keyword)
+            )
             ps = ps.annotate(
                 headline=SearchHeadline("teks", SearchQuery(keyword), max_fragments=3)
             )
@@ -76,7 +80,7 @@ def daftar_peraturan(request):
         if request.GET.get("bentuk"):
             bentuk = request.GET.get("bentuk")
             ps = ps.filter(bentuk__id__in=(int(bentuk),))
-        ps = ps.all()
+        ps = ps.all().order_by("-tahun")
 
         paginator = Paginator(ps, 7, orphans=5, allow_empty_first_page=True)
         page_number = int(request.GET.get("laman", 1))
