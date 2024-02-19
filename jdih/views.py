@@ -80,7 +80,7 @@ def daftar_peraturan(request):
         if request.GET.get("bentuk"):
             bentuk = request.GET.get("bentuk")
             ps = ps.filter(bentuk__id__in=(int(bentuk),))
-        ps = ps.all().order_by("-tahun")
+        ps = ps.all().order_by("-tanggal_penetapan", "-tahun")
 
         paginator = Paginator(ps, 7, orphans=5, allow_empty_first_page=True)
         page_number = int(request.GET.get("laman", 1))
