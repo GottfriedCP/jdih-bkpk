@@ -93,12 +93,17 @@ def daftar_peraturan(request):
         )
     except:
         return redirect("jdih:daftar_peraturan")
+    
+    try:
+        bentuk = int(bentuk)
+    except ValueError:
+        bentuk = ''
 
     context = {
         "keyword": keyword,
         "nomor": nomor,
         "tahun": tahun,
-        "bentuk": int(bentuk),
+        "bentuk": bentuk,
         "peraturans": peraturans_p,
         "paginator_range": paginator_range,
         "bentuks": bentuk_peraturans,
