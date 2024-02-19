@@ -50,9 +50,9 @@
 
                 <label class="form-label mt-3" for="bentuk">Bentuk</label>
                 <select class="form-select" id="bentuk" name="bentuk">
-                    <option selected value=""></option>
-                    {% for bentuk in bentuks %}
-                    <option value="{{ bentuk.id }}">{{ bentuk.nama_lengkap_bentuk }}</option>
+                    <option {% if not bentuk %}selected{% endif %} value=""></option>
+                    {% for bentuk_i in bentuks %}
+                    <option {% if bentuk == bentuk_i.id %}selected{% endif %} value="{{ bentuk_i.id }}">{{ bentuk_i.nama_lengkap_bentuk }}</option>
                     {% endfor %}
                 </select>
                 {% comment %}

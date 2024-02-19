@@ -59,9 +59,26 @@
         </form>
     </div>
 </section>
+
+<section id="statistik" class="mt-5">
+    <div class="container d-flex justify-content-center">
+        {% for bentuk in bentuks %}
+        <div class="mx-4 text-center">
+            <a href="{% url 'jdih:daftar_peraturan' %}?bentuk={{ bentuk.id }}" style="text-decoration: none;">
+                <h2 class="text-center">
+                    <!--i class="bi bi-file-earmark-text" style="font-size: 120%;"></i><br-->
+                    <span style="color: black;">{{ bentuk.peraturans.count }}</span><br>
+                    <span class="color-kemkes" style="font-size: 60%;">{{ bentuk.singkatan_nama_bentuk }}</span>
+                </h2>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
 <section id="peraturan-terbaru" class="mt-5">
     <div class="container">
-        <h2 class="color-kemkes" style="font-size: 1.5rem;">Peraturan Terbaru</h2>
+        <h2 class="color-kemkes text-center" style="font-size: 1.5rem;">Peraturan Terbaru</h2>
         {% if peraturans %}
         <div class="d-flex flex-wrap justify-content-start">
             {% for peraturan in peraturans %}

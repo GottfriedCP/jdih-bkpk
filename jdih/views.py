@@ -25,7 +25,7 @@ def index(request):
     peraturans = Peraturan.objects.filter(status=Peraturan.BERLAKU).order_by(
         "-tanggal_penetapan"
     )[:10]
-    bentuk_peraturans = BentukPeraturan.objects.all()
+    bentuk_peraturans = BentukPeraturan.objects.prefetch_related("peraturans").all()
     return render(
         request,
         "jdih/index.html",
@@ -46,6 +46,7 @@ def daftar_peraturan(request):
     keyword = ""
     nomor = ""
     tahun = ""
+    bentuk = ""
     ps = Peraturan.objects
     try:
         # BY KEYWORD
@@ -97,6 +98,7 @@ def daftar_peraturan(request):
         "keyword": keyword,
         "nomor": nomor,
         "tahun": tahun,
+        "bentuk": int(bentuk),
         "peraturans": peraturans_p,
         "paginator_range": paginator_range,
         "bentuks": bentuk_peraturans,
