@@ -63,7 +63,7 @@
 <section id="statistik" class="mt-5">
     <div class="container d-flex justify-content-center">
         {% for bentuk in bentuks %}
-        <div class="mx-4 text-center">
+        <div class="mx-4 text-center px-3" style="border: .1px solid #047d78; border-radius: 10px;">
             <a href="{% url 'jdih:daftar_peraturan' %}?bentuk={{ bentuk.id }}" style="text-decoration: none;">
                 <h2 class="text-center">
                     <!--i class="bi bi-file-earmark-text" style="font-size: 120%;"></i><br-->
