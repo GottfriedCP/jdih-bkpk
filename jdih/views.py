@@ -93,11 +93,13 @@ def daftar_peraturan(request):
         )
     except:
         return redirect("jdih:daftar_peraturan")
-    
+
+    # Ganti ini dengan
+    # bentuk = int(bentuk) if bentuk.isdigit() else ""
     try:
         bentuk = int(bentuk)
     except ValueError:
-        bentuk = ''
+        bentuk = ""
 
     context = {
         "keyword": keyword,

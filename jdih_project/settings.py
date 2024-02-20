@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "csp.middleware.CSPMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -148,6 +149,21 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  #  5 MB
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_FONT_SRC = (
+    "'self'",
+    "https://cdn.jsdelivr.net",
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
+)
+CSP_SCRIPT_SRC = (
+    "'self'",
+    # "'unsafe-inline'",
+    "https://cdn.jsdelivr.net",
+    "https://code.jquery.com",
+)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https:")
 
 ADMINS = [("GP", "gottfriedcpn@gmail.com")]
 EMAIL_SUBJECT_PREFIX = "[JDIH]"
