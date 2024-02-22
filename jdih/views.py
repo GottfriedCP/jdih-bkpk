@@ -25,7 +25,11 @@ def index(request):
     peraturans = Peraturan.objects.filter(status=Peraturan.BERLAKU).order_by(
         "-tanggal_penetapan"
     )[:10]
-    bentuk_peraturans = BentukPeraturan.objects.prefetch_related("peraturans").all()
+    bentuk_peraturans = (
+        BentukPeraturan.objects.prefetch_related("peraturans")
+        .order_by("singkatan_nama_bentuk")
+        .all()
+    )
     return render(
         request,
         "jdih/index.html",
