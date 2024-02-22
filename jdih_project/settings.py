@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "django_permissions_policy.PermissionsPolicyMiddleware",  # PP
+    "django_permissions_policy.PermissionsPolicyMiddleware",  # Permissions Policy
     "csp.middleware.CSPMiddleware",  # CSP
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -150,6 +150,9 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  #  5 MB
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = False  # harusnya True jika sudah Https
 
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_FONT_SRC = (
