@@ -154,6 +154,7 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = False  # harusnya True jika sudah Https
 
+CSP_BASE_URI = ("'self'", "*.kemkes.go.id")
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_FONT_SRC = (
     "'self'",
@@ -168,6 +169,7 @@ CSP_SCRIPT_SRC = (
     "https://code.jquery.com",
 )
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https:")
+CSP_OBJECT_SRC = ("'self'",)
 
 ADMINS = [("GP", "gottfriedcpn@gmail.com")]
 EMAIL_SUBJECT_PREFIX = "[JDIH]"
