@@ -22,7 +22,9 @@ from .models import BentukPeraturan, Peraturan, Subyek, Kategori, Tema
 
 
 def index(request):
-    peraturans = Peraturan.objects.filter(status=Peraturan.BERLAKU).order_by(
+    peraturans = Peraturan.objects.all()
+    jumlah_peraturan = peraturans.count()
+    peraturans = peraturans.filter(status=Peraturan.BERLAKU).order_by(
         "-tanggal_penetapan"
     )[:10]
     bentuk_peraturans = (
@@ -34,6 +36,7 @@ def index(request):
         request,
         "jdih/index.html",
         {
+            "jumlah_peraturan": jumlah_peraturan,
             "peraturans": peraturans,
             "bentuks": bentuk_peraturans,
             "beranda": True,
