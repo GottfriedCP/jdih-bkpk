@@ -26,54 +26,60 @@
             background-color: #f5f5f5;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+    
         .navbar-kemkes {
             background-color: #047d78;
             /* margin-bottom: 50px; */
         }
-
+    
         .navbar-kemkes-light {
             background-color: #f5f5f5;
             border-bottom: .3rem solid #047d78;
             /* margin-bottom: 50px; */
         }
-
+    
         .nav-link.active {
             color: black;
             text-decoration: underline;
         }
-
+    
         .breadcrumb span {
             text-decoration: none;
         }
-
+    
         .card:hover {
             border: 1px solid #047d78;
             box-shadow: 1px 1px gray;
         }
-
+    
         .card:hover h5 {
             color: #047d78;
         }
-
-        .color-kemkes{
+    
+        .color-kemkes {
             color: #047d78;
         }
-
+    
         .nav-item {
             font-size: 115%;
             padding-right: 20px;
         }
-
+    
         .btn-kemkes {
             background-color: #047d78 !important;
         }
-
+    
         .footer {
             /* background-color: #047d78;
-            color: white; */
+                color: white; */
             border-top: .3rem solid #047d78;
             min-height: 128px;
+        }
+    
+        @media all and (max-width: 480px) {
+            .judul-website {
+                display: none;
+            }
         }
     </style>
     {% block head_bl %}{% endblock %}
@@ -116,7 +122,7 @@
                     </li>
                     {% endcomment %}
                 </ul>
-                <span style="font-weight: bold; font-size: 110%;">Jaringan dan Informasi Hukum</span>
+                <span class="judul-website" style="font-weight: bold; font-size: 110%;">Jaringan dan Informasi Hukum</span>
                 {% comment %}
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
