@@ -24,9 +24,11 @@ from .models import BentukPeraturan, Peraturan, Subyek, Kategori, Tema
 def index(request):
     peraturans = Peraturan.objects.all()
     jumlah_peraturan = peraturans.count()
-    peraturans = peraturans.filter(status=Peraturan.BERLAKU).order_by(
-        "-tanggal_penetapan"
-    )[:10]
+    peraturans = (
+        peraturans.exclude(Q(tanggal_penetapan__isnull=True))
+        .filter(status=Peraturan.BERLAKU)
+        .order_by("-tanggal_penetapan")[:10]
+    )
     bentuk_peraturans = (
         BentukPeraturan.objects.prefetch_related("peraturans")
         .order_by("singkatan_nama_bentuk")
