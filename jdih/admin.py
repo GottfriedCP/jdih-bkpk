@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models as django_model
 from django.forms import CheckboxSelectMultiple
-from . import models
+from . import forms, models
 
 admin.site.site_header = "Administrasi Konten JDIH Kemkes"
 admin.site.site_title = "JDIH Kemkes"
@@ -17,6 +17,7 @@ admin.site.index_title = "Beranda"
 
 @admin.register(models.Peraturan)
 class PeraturanAdmin(admin.ModelAdmin):
+    form = forms.PeraturanForm
     list_display = ["kode", "judul", "tahun", "bentuk", "status"]
     filter_horizontal = [
         "subyek",
@@ -36,6 +37,7 @@ class PeraturanAdmin(admin.ModelAdmin):
 
 @admin.register(models.BentukPeraturan)
 class BentukPeraturanAdmin(admin.ModelAdmin):
+    form = forms.BentukPeraturanForm
     list_display = ["nama_lengkap_bentuk", "singkatan_nama_bentuk"]
 
 
@@ -46,9 +48,11 @@ class SubyekAdmin(admin.ModelAdmin):
 
 @admin.register(models.Kategori)
 class KategoriAdmin(admin.ModelAdmin):
+    form = forms.KategoriForm
     list_display = ["judul", "slug"]
 
 
 @admin.register(models.Tema)
 class TemaAdmin(admin.ModelAdmin):
+    form = forms.TemaForm
     list_display = ["judul", "slug"]
