@@ -23,6 +23,13 @@ class PeraturanAdmin(admin.ModelAdmin):
         "subyek",
         "kategori",
         "tema",
+        # "mencabuts",  # lihat exclude
+        # "mencabut_sebagians",
+        # "mengubahs",
+        # "melengkapis",
+    ]
+    # sementara sembunyikan relasi regulasi
+    exclude = [
         "mencabuts",
         "mencabut_sebagians",
         "mengubahs",
