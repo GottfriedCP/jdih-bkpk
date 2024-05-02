@@ -31,6 +31,8 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 INTERNAL_IPS = config("INTERNAL_IPS", cast=Csv())
 
+CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
+
 
 # Application definition
 
