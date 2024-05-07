@@ -18,23 +18,31 @@ admin.site.index_title = "Beranda"
 @admin.register(models.Peraturan)
 class PeraturanAdmin(admin.ModelAdmin):
     form = forms.PeraturanForm
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.prefetch_related(
+            "mencabuts", "mencabut_sebagians", "mengubahs", "melengkapis"
+        )
+        return qs
+
     list_display = ["kode", "judul", "tahun", "bentuk", "status"]
     filter_horizontal = [
         "subyek",
         "kategori",
         "tema",
-        # "mencabuts",  # lihat exclude
-        # "mencabut_sebagians",
-        # "mengubahs",
-        # "melengkapis",
-    ]
-    # sementara sembunyikan relasi regulasi
-    exclude = [
-        "mencabuts",
+        "mencabuts",  # lihat exclude
         "mencabut_sebagians",
         "mengubahs",
         "melengkapis",
     ]
+    # sementara sembunyikan relasi regulasi
+    # exclude = [
+    #     "mencabuts",
+    #     "mencabut_sebagians",
+    #     "mengubahs",
+    #     "melengkapis",
+    # ]
     search_fields = ["kode", "judul"]
     # formfield_overrides = {
     #     django_model.ManyToManyField: {"widget": CheckboxSelectMultiple},
