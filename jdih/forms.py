@@ -11,7 +11,8 @@ class PeraturanForm(forms.ModelForm):
 
     def clean_kode(self):
         kode = self.cleaned_data["kode"]
-        if Peraturan.objects.filter(kode=kode).exists():
+        duplicate_found = Peraturan.objects.filter(kode=kode).exists()
+        if duplicate_found and self.instance.pk is None:
             raise ValidationError("Peraturan dengan kode yang sama sudah ada.")
         return kode
 
@@ -23,7 +24,8 @@ class BentukPeraturanForm(forms.ModelForm):
     def clean_nama_lengkap_bentuk(self):
         nama_lengkap_bentuk = self.cleaned_data["nama_lengkap_bentuk"]
         slug = slugify(nama_lengkap_bentuk)
-        if BentukPeraturan.objects.filter(slug=slug).exists():
+        duplicate_found = BentukPeraturan.objects.filter(slug=slug).exists()
+        if duplicate_found and self.instance.pk is None:
             raise ValidationError("Bentuk peraturan ini sudah ada di sistem.")
         return nama_lengkap_bentuk
 
@@ -35,7 +37,8 @@ class KategoriForm(forms.ModelForm):
     def clean_judul(self):
         judul = self.cleaned_data["judul"]
         slug = slugify(judul)
-        if Kategori.objects.filter(slug=slug).exists():
+        duplicate_found = Kategori.objects.filter(slug=slug).exists()
+        if duplicate_found and self.instance.pk is None:
             raise ValidationError("Kategori peraturan ini sudah ada di sistem.")
         return judul
 
@@ -48,9 +51,10 @@ class TemaForm(forms.ModelForm):
         cleaned_data = super().clean()
         judul = cleaned_data.get("judul")
         slug = cleaned_data.get("slug")
-        if (
+        duplicate_found = (
             Tema.objects.filter(judul=judul).exists()
             or Tema.objects.filter(slug=slug).exists()
-        ):
+        )
+        if duplicate_found and self.instance.pk is None:
             raise ValidationError("Tema peraturan ini sudah ada di sistem.")
         return cleaned_data

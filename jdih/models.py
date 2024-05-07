@@ -198,6 +198,8 @@ class BentukPeraturan(TimeStampedModel):
         verbose_name="singkatan",
         help_text="contoh: PP",
     )
+    # field bool utk menandai apakah dia tayang di home
+    tayang = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.singkatan_nama_bentuk:

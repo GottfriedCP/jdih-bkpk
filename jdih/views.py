@@ -32,7 +32,7 @@ def index(request):
     bentuk_peraturans = (
         BentukPeraturan.objects.prefetch_related("peraturans")
         .order_by("singkatan_nama_bentuk")
-        .all()
+        .filter(tayang=True)
     )
     return render(
         request,
