@@ -21,9 +21,10 @@ class PeraturanAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        qs = qs.prefetch_related(
-            "mencabuts", "mencabut_sebagians", "mengubahs", "melengkapis"
-        )
+        qs = qs.prefetch_related("mencabuts")
+        # qs = qs.prefetch_related(
+        #     "mencabuts", "mencabut_sebagians", "mengubahs", "melengkapis"
+        # )
         return qs
 
     list_display = ["kode", "judul", "tahun", "bentuk", "status"]
@@ -32,17 +33,17 @@ class PeraturanAdmin(admin.ModelAdmin):
         "kategori",
         "tema",
         "mencabuts",  # lihat exclude
+        # "mencabut_sebagians",
+        # "mengubahs",
+        # "melengkapis",
+    ]
+    # sementara sembunyikan relasi regulasi
+    exclude = [
+        # "mencabuts",
         "mencabut_sebagians",
         "mengubahs",
         "melengkapis",
     ]
-    # sementara sembunyikan relasi regulasi
-    # exclude = [
-    #     "mencabuts",
-    #     "mencabut_sebagians",
-    #     "mengubahs",
-    #     "melengkapis",
-    # ]
     search_fields = ["kode", "judul"]
     # formfield_overrides = {
     #     django_model.ManyToManyField: {"widget": CheckboxSelectMultiple},

@@ -77,7 +77,7 @@ class Peraturan(TimeStampedModel):
         symmetrical=False,
         blank=True,
         related_name="pencabuts",
-        verbose_name="mencabut seluruhnya",
+        verbose_name="mencabut/mengubah/melengkapi",
     )
     mencabut_sebagians = models.ManyToManyField(
         to="self",
