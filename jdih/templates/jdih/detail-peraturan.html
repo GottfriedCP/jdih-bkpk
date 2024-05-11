@@ -125,10 +125,10 @@
                             {% for p in peraturan.melengkapis.all %}
                                 <li>Melengkapi <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
                             {% endfor %}
-                            <!-- UNTUK P AKTIF -->
+                            <!-- UNTUK P NON AKTIF -->
                             {% else %}
                             {% for p in peraturan.pencabuts.all %}
-                                <li>Dicabut oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                                <li>{{ p.get_alasan_tidak_berlaku_label|default:"Dicabut" }} oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
                             {% endfor %}
                             {% for p in peraturan.pencabut_sebagians.all %}
                                 <li>Dicabut sebagian oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>

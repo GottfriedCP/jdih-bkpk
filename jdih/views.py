@@ -137,6 +137,11 @@ def detail(request, peraturan_id):
         "tema",
     )
     peraturan = get_object_or_404(peraturan_queryset, id=peraturan_id)
+    # non-aktifkan jika ada pencabutnya
+    if peraturan.pencabuts.exists():
+        peraturan.status = Peraturan.TIDAK_BERLAKU
+        peraturan.save()
+    # cek apakah file PDF regulasi bisa ditemukan di storage
     try:
         dokumen_tersedia = (
             peraturan.file_dokumen != ""

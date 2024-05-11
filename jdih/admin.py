@@ -44,7 +44,8 @@ class PeraturanAdmin(admin.ModelAdmin):
         "mengubahs",
         "melengkapis",
     ]
-    search_fields = ["kode", "judul"]
+    search_fields = ["kode_judul"]  # ["kode", "judul"]
+    autocomplete_fields = ["mencabuts"]
     # formfield_overrides = {
     #     django_model.ManyToManyField: {"widget": CheckboxSelectMultiple},
     # }

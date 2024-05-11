@@ -26,14 +26,30 @@ class Peraturan(TimeStampedModel):
         ("indonesia", "Bahasa Indonesia"),
         ("inggris", "Bahasa Inggris"),
     )
+
     BERLAKU = "berlaku"
     TIDAK_BERLAKU = "tidak_berlaku"
     STATUS_CHOICES = ((BERLAKU, "Berlaku"), (TIDAK_BERLAKU, "Tidak Berlaku"))
 
+    DICABUT = "dicabut"
+    DICABUT_SEBAGIAN = "dicabut_sebagian"
+    DIUBAH = "diubah"
+    DILENGKAPI = "dilengkapi"
+    LAINNYA = "lainnya"
+    ALASAN_TIDAK_BERLAKU_CHOICES = (
+        (DICABUT, "Dicabut"),
+        (DICABUT_SEBAGIAN, "Dicabut sebagian"),
+        (DIUBAH, "Diubah"),
+        (DILENGKAPI, "Dilengkapi"),
+        (LAINNYA, "Lainnya"),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # kode:
+    # kode: HK.01.07/MENKES/1134/2022 etc..
     kode = models.CharField(max_length=150, unique=True, verbose_name="kode peraturan")
     judul = models.CharField(max_length=300)
+    # dipopulate paska save untuk fitur search
+    kode_judul = models.CharField(max_length=500, null=True, blank=True, editable=False)
     # bentuk: UUD, Tap MPR, fk
     bentuk = models.ForeignKey(
         "BentukPeraturan",
@@ -71,6 +87,9 @@ class Peraturan(TimeStampedModel):
     # tema: BMN, Covid-19, etc. m2m
     tema = models.ManyToManyField("Tema", blank=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=BERLAKU)
+    alasan_tidak_berlaku = models.CharField(
+        max_length=50, choices=ALASAN_TIDAK_BERLAKU_CHOICES, null=True, blank=True
+    )
 
     mencabuts = models.ManyToManyField(
         to="self",
@@ -118,14 +137,17 @@ class Peraturan(TimeStampedModel):
     class Meta:
         ordering = ("-created_at",)
         verbose_name_plural = "peraturan"
-        # indexes = [
-        #     GinIndex(
-        #         name="peraturan_gin_idx",
-        #         fields=["teks", "judul", "kode"],
-        #     )
-        # ]
+        indexes = [
+            models.Index(fields=["kode_judul"]),
+            # GinIndex(
+            #     name="peraturan_gin_idx",
+            #     fields=["teks", "judul", "kode"],
+            # )
+        ]
 
     def save(self, *args, **kwargs):
+        self.kode_judul = f"{self.kode} {self.judul}"
+
         update_jumlah_lihat = kwargs.pop("update_jumlah_lihat", False)
         super().save(*args, **kwargs)
         if not update_jumlah_lihat:
