@@ -121,6 +121,9 @@ class Peraturan(TimeStampedModel):
     teks = models.TextField(blank=True, null=True, editable=False)
     teks_vektor = SearchVectorField(blank=True, null=True, editable=False)
     last_teks_ingestion = models.DateTimeField(blank=True, null=True, editable=False)
+    teks_ingestion_error_message = models.TextField(
+        blank=True, null=True, editable=False
+    )
     file_dokumen = ContentTypeRestrictedFileField(
         upload_to="dokumen_hukum/",
         blank=True,

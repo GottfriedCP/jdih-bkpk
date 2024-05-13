@@ -2,6 +2,7 @@ import fitz
 
 from django.contrib import admin
 from django.contrib.postgres.search import SearchVector
+from django.db.models import F
 from django.utils import timezone
 
 from . import forms, models
@@ -23,7 +24,9 @@ class PeraturanAdmin(admin.ModelAdmin):
     form = forms.PeraturanForm
 
     def save_model(self, request, obj, form, change):
-        # if obj.file_dokumen != "" and obj.file_dokumen is not None:
+        # NOTE ini approach yg aneh wkwk
+        # simpan agar file bisa ditemukan jika memang ada
+        super().save_model(request, obj, form, change)
         if obj.file_dokumen:
             try:
                 with fitz.open(obj.file_dokumen.path) as doc:
@@ -31,11 +34,17 @@ class PeraturanAdmin(admin.ModelAdmin):
                     for page in doc:
                         body_text += page.get_text()
                 obj.teks = body_text
-                obj.teks_vektor = SearchVector(models.F("teks"))
+                # save agar vektor bisa di generate
+                super().save_model(request, obj, form, change)
+                obj.teks_vektor = SearchVector("teks")
                 obj.last_teks_ingestion = timezone.now()
-            except:
-                pass
-        super().save_model(request, obj, form, change)
+                obj.teks_ingestion_error_message = None
+            except Exception as e:
+                obj.teks = None
+                obj.teks_vektor = None
+                obj.teks_ingestion_error_message = e
+                # super().save_model(request, obj, form, change)
+            super().save_model(request, obj, form, change)
 
     # def get_queryset(self, request):
     #     qs = super().get_queryset(request)
