@@ -56,7 +56,9 @@ class Peraturan(TimeStampedModel):
     )
     nomor = models.IntegerField(blank=True, null=True)
     tahun = models.IntegerField(default=datetime.datetime.now().year)
-    unit_eselon_1_pemrakarsa = models.CharField(max_length=150, blank=True, null=True)
+    unit_eselon_1_pemrakarsa = models.CharField(
+        verbose_name="eselon 1 pemrakarsa", max_length=150, blank=True, null=True
+    )
     tempat_penetapan = models.CharField(max_length=100, blank=True, null=True)
     tanggal_penetapan = models.DateField(blank=True, null=True)
     tanggal_pengundangan = models.DateField(blank=True, null=True)

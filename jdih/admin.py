@@ -67,6 +67,12 @@ class PeraturanAdmin(admin.ModelAdmin):
         "mencabut_sebagians",
         "mengubahs",
         "melengkapis",
+        "lokasi",
+        "sumber",
+        "bidang_hukum",
+        "subyek",
+        "kategori",
+        "tema",
     ]
     search_fields = ["kode_judul"]  # ["kode", "judul"]
     autocomplete_fields = ["mencabuts"]
