@@ -1,11 +1,8 @@
 import datetime
-import os
 import uuid
 
-import fitz
-from django.contrib.postgres.search import SearchVector, SearchVectorField
+from django.contrib.postgres.search import SearchVectorField
 from django.db import models
-from django.utils import timezone
 from django.utils.text import slugify
 
 from .custom_fields import ContentTypeRestrictedFileField
@@ -147,23 +144,7 @@ class Peraturan(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         self.kode_judul = f"{self.kode} {self.judul}"
-
-        update_jumlah_lihat = kwargs.pop("update_jumlah_lihat", False)
         super().save(*args, **kwargs)
-        if not update_jumlah_lihat:
-            # os.path.isfile(self.file_dokumen.path)
-            if self.file_dokumen != "" and self.file_dokumen is not None:
-                try:
-                    with fitz.open(self.file_dokumen.path) as doc:
-                        body_text = ""
-                        for page in doc:
-                            body_text += page.get_text()
-                    self.teks = body_text
-                    self.teks_vektor = SearchVector(models.F("teks"))
-                    self.last_teks_ingestion = timezone.now()
-                except:
-                    pass
-            super().save(*args, **kwargs)
 
     def __str__(self):
         # if len(self.judul) > 20:

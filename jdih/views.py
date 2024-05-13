@@ -160,7 +160,7 @@ def detail(request, peraturan_id):
     response = render(request, "jdih/detail-peraturan.html", context)
     if not request.COOKIES.get(str(peraturan.id)):
         peraturan.jumlah_lihat = F("jumlah_lihat") + 1
-        peraturan.save(update_jumlah_lihat=True)
+        peraturan.save()
         response.set_cookie(str(peraturan.id), peraturan.judul)
     return response
 

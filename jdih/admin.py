@@ -1,6 +1,9 @@
+import fitz
+
 from django.contrib import admin
-from django.db import models as django_model
-from django.forms import CheckboxSelectMultiple
+from django.contrib.postgres.search import SearchVector
+from django.utils import timezone
+
 from . import forms, models
 
 admin.site.site_header = "Administrasi Konten JDIH Kemkes"
@@ -19,13 +22,25 @@ admin.site.index_title = "Beranda"
 class PeraturanAdmin(admin.ModelAdmin):
     form = forms.PeraturanForm
 
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        qs = qs.prefetch_related("mencabuts")
-        # qs = qs.prefetch_related(
-        #     "mencabuts", "mencabut_sebagians", "mengubahs", "melengkapis"
-        # )
-        return qs
+    def save_model(self, request, obj, form, change):
+        # if obj.file_dokumen != "" and obj.file_dokumen is not None:
+        if obj.file_dokumen:
+            try:
+                with fitz.open(obj.file_dokumen.path) as doc:
+                    body_text = ""
+                    for page in doc:
+                        body_text += page.get_text()
+                obj.teks = body_text
+                obj.teks_vektor = SearchVector(models.F("teks"))
+                obj.last_teks_ingestion = timezone.now()
+            except:
+                pass
+        super().save_model(request, obj, form, change)
+
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     qs = qs.prefetch_related("mencabuts")
+    #     return qs
 
     list_display = ["kode", "judul", "tahun", "bentuk", "status"]
     filter_horizontal = [
