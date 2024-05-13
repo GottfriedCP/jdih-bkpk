@@ -44,14 +44,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "debug_toolbar",
-    "django_q",
+    # "django_q",
     "jdih",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django_permissions_policy.PermissionsPolicyMiddleware",  # Permissions Policy
-    "csp.middleware.CSPMiddleware",  # CSP
+    # "csp.middleware.CSPMiddleware",  # CSP
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
