@@ -95,7 +95,7 @@ class Peraturan(TimeStampedModel):
         symmetrical=False,
         blank=True,
         related_name="pencabuts",
-        verbose_name="mencabut/mengubah/melengkapi",
+        verbose_name="mencabut",
     )
     mencabut_sebagians = models.ManyToManyField(
         to="self",
@@ -109,7 +109,7 @@ class Peraturan(TimeStampedModel):
         symmetrical=False,
         blank=True,
         related_name="pengubahs",
-        verbose_name="mengubah",
+        verbose_name="mengubah/melengkapi",
     )
     melengkapis = models.ManyToManyField(
         to="self",

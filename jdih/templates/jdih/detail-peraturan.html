@@ -112,7 +112,6 @@
                             <ul>
                                 <li>Ditambahkan ke basis data JDIH pada {{ peraturan.created_at|date:'d F Y' }}</li>
                             <!-- UNTUK P AKTIF -->
-                            {% if peraturan_is_berlaku %}
                             {% for p in peraturan.mencabuts.all %}
                                 <li>Mencabut <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
                             {% endfor %}
@@ -126,9 +125,8 @@
                                 <li>Melengkapi <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
                             {% endfor %}
                             <!-- UNTUK P NON AKTIF -->
-                            {% else %}
                             {% for p in peraturan.pencabuts.all %}
-                                <li>{{ p.get_alasan_tidak_berlaku_label|default:"Dicabut" }} oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
+                                <li>Dicabut oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
                             {% endfor %}
                             {% for p in peraturan.pencabut_sebagians.all %}
                                 <li>Dicabut sebagian oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
@@ -139,7 +137,6 @@
                             {% for p in peraturan.pelengkaps.all %}
                                 <li>Dilengkapi oleh <a href="{% url 'jdih:detail' p.id %}">{{ p.kode }}</a> {{ p.judul }}</li>
                             {% endfor %}
-                            {% endif %}
                             </ul>
                         </td>
                     </tr>

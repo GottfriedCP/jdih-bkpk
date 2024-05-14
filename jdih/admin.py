@@ -60,14 +60,14 @@ class PeraturanAdmin(admin.ModelAdmin):
         "tema",
         "mencabuts",  # lihat exclude
         # "mencabut_sebagians",
-        # "mengubahs",
+        "mengubahs",
         # "melengkapis",
     ]
     # sementara sembunyikan relasi regulasi
     exclude = [
         # "mencabuts",
         "mencabut_sebagians",
-        "mengubahs",
+        # "mengubahs",
         "melengkapis",
         "lokasi",
         "sumber",
@@ -77,7 +77,7 @@ class PeraturanAdmin(admin.ModelAdmin):
         "tema",
     ]
     search_fields = ["kode_judul"]  # ["kode", "judul"]
-    autocomplete_fields = ["mencabuts"]
+    autocomplete_fields = ["mencabuts", "mengubahs"]
     # formfield_overrides = {
     #     django_model.ManyToManyField: {"widget": CheckboxSelectMultiple},
     # }
@@ -87,7 +87,8 @@ class PeraturanAdmin(admin.ModelAdmin):
 @admin.register(models.BentukPeraturan)
 class BentukPeraturanAdmin(admin.ModelAdmin):
     form = forms.BentukPeraturanForm
-    list_display = ["nama_lengkap_bentuk", "singkatan_nama_bentuk"]
+    list_display = ["nama_lengkap_bentuk", "singkatan_nama_bentuk", "tayang"]
+    search_fields = ["nama_lengkap_bentuk", "singkatan_nama_bentuk"]
 
 
 @admin.register(models.Subyek)
