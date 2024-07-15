@@ -43,9 +43,15 @@ class Peraturan(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # kode: HK.01.07/MENKES/1134/2022 etc..
-    kode = models.CharField(max_length=150, unique=True, verbose_name="kode peraturan")
-    judul = models.CharField(max_length=300)
-    # dipopulate paska save untuk fitur search
+    ht_kode = "Misalnya: HK.01.07/MENKES/123/2024"
+    kode = models.CharField(
+        max_length=150, unique=True, verbose_name="kode peraturan", help_text=ht_kode
+    )
+    judul = models.CharField(
+        max_length=300,
+        help_text="Misalnya: Jam Kerja Pegawai di Lingkungan Kementerian Kesehatan Selama Bulan Ramadhan",
+    )
+    # kode + judul
     kode_judul = models.CharField(max_length=500, null=True, blank=True, editable=False)
     # bentuk: UUD, Tap MPR, fk
     bentuk = models.ForeignKey(

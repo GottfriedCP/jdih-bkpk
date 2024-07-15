@@ -78,6 +78,52 @@ class PeraturanAdmin(admin.ModelAdmin):
     ]
     search_fields = ["kode_judul"]  # ["kode", "judul"]
     autocomplete_fields = ["mencabuts", "mengubahs"]
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["kode", "judul", "nomor", "tahun", "bentuk", "bahasa"],
+            },
+        ),
+        (
+            "Tempat dan tanggal penetapan",
+            {
+                "fields": [
+                    "unit_eselon_1_pemrakarsa",
+                    "tempat_penetapan",
+                    "tanggal_penetapan",
+                    "tanggal_pengundangan",
+                    "tanggal_berlaku_efektif",
+                ],
+            },
+        ),
+        (
+            "Status Peraturan",
+            {
+                "fields": [
+                    "status",
+                    "alasan_tidak_berlaku",
+                ],
+            },
+        ),
+        (
+            "Relasi antar peraturan",
+            {
+                "fields": [
+                    "mencabuts",
+                    "mengubahs",
+                ],
+            },
+        ),
+        (
+            "Dokumen peraturan",
+            {
+                "fields": [
+                    "file_dokumen",
+                ],
+            },
+        ),
+    ]
     # formfield_overrides = {
     #     django_model.ManyToManyField: {"widget": CheckboxSelectMultiple},
     # }
