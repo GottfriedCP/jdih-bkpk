@@ -33,6 +33,10 @@ INTERNAL_IPS = config("INTERNAL_IPS", cast=Csv())
 
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
 
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": DEBUG,
+}
+
 
 # Application definition
 
@@ -50,7 +54,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    #"django_permissions_policy.PermissionsPolicyMiddleware",  # Permissions Policy
+    # "django_permissions_policy.PermissionsPolicyMiddleware",  # Permissions Policy
     # "csp.middleware.CSPMiddleware",  # CSP
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
