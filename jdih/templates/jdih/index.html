@@ -64,7 +64,6 @@
     <h2 class="color-kemkes text-center" style="font-size: 1.5rem;">Bentuk Peraturan</h2>
     <p class="text-center"><small>Terdapat {{ jumlah_peraturan }} peraturan dalam sistem JDIH Kemenkes</small></p>
     <div class="mt-3 container d-flex flex-wrap justify-content-center">
-        {% comment %}
         {% for bentuk in bentuks %}
         <div class="mx-3 mb-3 text-center pe-3" style="border: .1px solid #047d78; border-radius: 10px; min-width: 100px;">
             <a href="{% url 'jdih:daftar_peraturan' %}?bentuk={{ bentuk.id }}" style="text-decoration: none;">
@@ -77,14 +76,13 @@
                             {{ bentuk.singkatan_nama_bentuk }}
                         </div>
                         <div class="badge w-auto" style="background-color: #047d78;">
-                            {{ bentuk.peraturans.count }}
+                            {{ bentuk.peraturans_count }}
                         </div>
                     </div>
                 </div>
             </a>
         </div>
         {% endfor %}
-        {% endcomment %}
     </div>
 </section>
 
