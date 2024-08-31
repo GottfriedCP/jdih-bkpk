@@ -3,8 +3,8 @@ import re
 
 from collections import Counter
 
-import fitz
-import nltk
+# import fitz
+# import nltk
 
 from django.db.models import F, Q
 from django.contrib import messages
@@ -14,9 +14,9 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.http.response import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
+# from nltk.corpus import stopwords
+# from nltk.tokenize import word_tokenize
+# from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 
 from .models import BentukPeraturan, Peraturan, Subyek, Kategori, Tema
 
@@ -211,47 +211,47 @@ def cari(request):
     return render(request, "jdih/daftar-peraturan.html", context=context)
 
 
-def extract_text(request):
-    if request.method == "POST" and request.FILES["try"]:
-        myfile = request.FILES["try"]
-        # print(type(myfile))  # django.core.files.uploadedfile.InMemoryUploadedFile
-        fs = FileSystemStorage()
-        filename_string = re.sub(r"\s+", "", myfile.name)
-        filename = fs.save(f"{filename_string}", myfile)
-        uploaded_file_url = fs.url(filename)
-        print(uploaded_file_url)
+# def extract_text(request):
+#     if request.method == "POST" and request.FILES["try"]:
+#         myfile = request.FILES["try"]
+#         # print(type(myfile))  # django.core.files.uploadedfile.InMemoryUploadedFile
+#         fs = FileSystemStorage()
+#         filename_string = re.sub(r"\s+", "", myfile.name)
+#         filename = fs.save(f"{filename_string}", myfile)
+#         uploaded_file_url = fs.url(filename)
+#         print(uploaded_file_url)
 
-        with fitz.open(uploaded_file_url[1:]) as doc:
-            pymupdf_text = ""
-            for page in doc:
-                pymupdf_text += page.get_text()
-                # print(type(page))
+#         with fitz.open(uploaded_file_url[1:]) as doc:
+#             pymupdf_text = ""
+#             for page in doc:
+#                 pymupdf_text += page.get_text()
+#                 # print(type(page))
 
-        # Hapus karakter non alfanumerik dan non spasi
-        pymupdf_text = re.sub(r"[^A-Za-z0-9 ]+", "", pymupdf_text)
+#         # Hapus karakter non alfanumerik dan non spasi
+#         pymupdf_text = re.sub(r"[^A-Za-z0-9 ]+", "", pymupdf_text)
 
-        # Membuat token dari teks
-        tokens = word_tokenize(pymupdf_text)  # tidak perlu atur bahasa
+#         # Membuat token dari teks
+#         tokens = word_tokenize(pymupdf_text)  # tidak perlu atur bahasa
 
-        # Hapus stopword dari teks
-        factory = StopWordRemoverFactory()
-        stopwords = factory.get_stop_words()
-        filtered_text = [word for word in tokens if word.lower() not in stopwords]
+#         # Hapus stopword dari teks
+#         factory = StopWordRemoverFactory()
+#         stopwords = factory.get_stop_words()
+#         filtered_text = [word for word in tokens if word.lower() not in stopwords]
 
-        # Hitung frekuensi tiap kata
-        word_counts = Counter(filtered_text)
+#         # Hitung frekuensi tiap kata
+#         word_counts = Counter(filtered_text)
 
-        # DEBUG cetak 10 kata yang paling sering keluar
-        for word, count in word_counts.most_common(10):
-            print(f"{word}: {count}")
+#         # DEBUG cetak 10 kata yang paling sering keluar
+#         for word, count in word_counts.most_common(10):
+#             print(f"{word}: {count}")
 
-        return render(
-            request,
-            "jdih/extract-text.html",
-            {
-                "extracted_text": pymupdf_text,
-                "keywords_count": word_counts.most_common(10),
-            },
-        )
+#         return render(
+#             request,
+#             "jdih/extract-text.html",
+#             {
+#                 "extracted_text": pymupdf_text,
+#                 "keywords_count": word_counts.most_common(10),
+#             },
+#         )
 
-    return render(request, "jdih/extract-text.html")
+#     return render(request, "jdih/extract-text.html")
