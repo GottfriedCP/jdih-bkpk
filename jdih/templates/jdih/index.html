@@ -48,9 +48,11 @@
                         <div class="col">
                             <select class="form-select" name="bentuk">
                                 <option selected value="">-Bentuk peraturan-</option>
+                                {% comment %}
                                 {% for bentuk in bentuks %}
                                 <option value="{{ bentuk.id }}">{{ bentuk.nama_lengkap_bentuk }}</option>
                                 {% endfor %}
+                                {% endcomment %}
                             </select>
                         </div>
                     </div>
@@ -64,6 +66,7 @@
     <h2 class="color-kemkes text-center" style="font-size: 1.5rem;">Bentuk Peraturan</h2>
     <p class="text-center"><small>Terdapat {{ jumlah_peraturan }} peraturan dalam sistem JDIH Kemenkes</small></p>
     <div class="mt-3 container d-flex flex-wrap justify-content-center">
+        {% comment %}
         {% for bentuk in bentuks %}
         <div class="mx-3 mb-3 text-center pe-3" style="border: .1px solid #047d78; border-radius: 10px; min-width: 100px;">
             <a href="{% url 'jdih:daftar_peraturan' %}?bentuk={{ bentuk.id }}" style="text-decoration: none;">
@@ -83,6 +86,7 @@
             </a>
         </div>
         {% endfor %}
+        {% endcomment %}
     </div>
 </section>
 
