@@ -31,7 +31,7 @@ def index(request):
         .order_by("-tanggal_penetapan")[:10]
     )
     bentuk_peraturans = (
-        BentukPeraturan.objects.prefetch_related("peraturans")
+        BentukPeraturan.objects
         .order_by("singkatan_nama_bentuk")
         .filter(tayang=True)
         .annotate(peraturans_count=Count("peraturans"))
