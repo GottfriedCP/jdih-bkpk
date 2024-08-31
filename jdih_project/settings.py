@@ -33,8 +33,13 @@ INTERNAL_IPS = config("INTERNAL_IPS", cast=Csv())
 
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
 
+
+def show_toolbar(request):
+    return True
+
+
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": DEBUG,
+    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 }
 
 
