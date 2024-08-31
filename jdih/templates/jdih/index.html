@@ -48,11 +48,9 @@
                         <div class="col">
                             <select class="form-select" name="bentuk">
                                 <option selected value="">-Bentuk peraturan-</option>
-                                {% comment %}
                                 {% for bentuk in bentuks %}
                                 <option value="{{ bentuk.id }}">{{ bentuk.nama_lengkap_bentuk }}</option>
                                 {% endfor %}
-                                {% endcomment %}
                             </select>
                         </div>
                     </div>

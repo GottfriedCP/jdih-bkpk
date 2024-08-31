@@ -6,7 +6,7 @@ from collections import Counter
 # import fitz
 # import nltk
 
-from django.db.models import F, Q
+from django.db.models import F, Q, Count
 from django.contrib import messages
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchVector
 from django.core.files.storage import FileSystemStorage
@@ -14,6 +14,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.http.response import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404
+
 # from nltk.corpus import stopwords
 # from nltk.tokenize import word_tokenize
 # from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
@@ -33,6 +34,7 @@ def index(request):
         BentukPeraturan.objects.prefetch_related("peraturans")
         .order_by("singkatan_nama_bentuk")
         .filter(tayang=True)
+        .annotate(peraturans_count=Count("peraturans"))
     )
     return render(
         request,
