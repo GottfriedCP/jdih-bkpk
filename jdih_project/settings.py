@@ -35,7 +35,7 @@ CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
 
 
 def show_toolbar(request):
-    return True
+    return config("DEBUG", cast=bool)
 
 
 DEBUG_TOOLBAR_CONFIG = {
