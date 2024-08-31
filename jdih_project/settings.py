@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "django_permissions_policy.PermissionsPolicyMiddleware",  # Permissions Policy
+    #"django_permissions_policy.PermissionsPolicyMiddleware",  # Permissions Policy
     # "csp.middleware.CSPMiddleware",  # CSP
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
